@@ -20,8 +20,13 @@ MIN_SIMILARITY = 0.25  # ignore low-relevance results
 
 def search(query: str) -> list[dict]:
     url = f"{BASE_URL}/memories/search?q={urllib.parse.quote(query)}&limit={SEARCH_LIMIT}"
+    headers = {}
+    token = os.environ.get("MEMORY_API_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
     try:
-        with urllib.request.urlopen(url, timeout=3) as resp:
+        with urllib.request.urlopen(req, timeout=3) as resp:
             data = json.loads(resp.read())
             return [m for m in data["memories"] if (m.get("similarity") or 0) >= MIN_SIMILARITY]
     except Exception:
