@@ -12,5 +12,10 @@
         "matcher": ""
       }
     ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(python memory.py:*)"
+    ]
   }
 }
