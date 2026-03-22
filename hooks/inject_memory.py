@@ -39,13 +39,7 @@ def main():
     except Exception:
         sys.exit(0)
 
-    message = ""
-    for block in event.get("message", {}).get("content", []):
-        if isinstance(block, dict) and block.get("type") == "text":
-            message += block.get("text", "")
-        elif isinstance(block, str):
-            message += block
-
+    message = event.get("prompt", "")
     if not message.strip():
         sys.exit(0)
 
@@ -60,7 +54,14 @@ def main():
         lines.append(f"- [{cat}]{sim} {m['content']}")
     lines.append("</memory>")
 
-    print("\n".join(lines))
+    output = {
+        "suppressOutput": True,
+        "hookSpecificOutput": {
+            "hookEventName": "UserPromptSubmit",
+            "additionalContext": "\n".join(lines),
+        },
+    }
+    print(json.dumps(output))
     sys.exit(0)
 
 
