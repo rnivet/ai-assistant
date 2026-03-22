@@ -23,6 +23,9 @@ def _request(method: str, path: str, data: dict | None = None) -> dict:
     url = f"{BASE_URL}{path}"
     body = json.dumps(data).encode() if data else None
     headers = {"Content-Type": "application/json"}
+    token = os.environ.get("MEMORY_API_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
         with urllib.request.urlopen(req) as resp:

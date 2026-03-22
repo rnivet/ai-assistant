@@ -6,7 +6,7 @@ Remi is French. **Always store memories in French**, regardless of the language 
 
 ## Memory system
 
-Persistent memory is available at the URL set in `MEMORY_API_URL`.
+Persistent memory is available at the URL set in `MEMORY_API_URL`. If `MEMORY_API_TOKEN` is set, it is sent as a Bearer token for authentication.
 
 Relevant memories are automatically injected into context via the `<memory>` block at the start of each turn — read them before responding.
 
